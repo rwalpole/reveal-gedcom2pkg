@@ -60,29 +60,177 @@
 						<h1>Journalling</h1>
 					</section>
 					<section>
-						<div class="fragment" data-fragment-index="1">
-							<p style="align:left;">07:00 - went for a run in <span class="fragment highlight-red" data-fragment-index="2">the park</span></p>
-							<p>08:30 - left the house and took the train to work</p>
-							<p>09:30 - train delayed, arrived at <span class="fragment highlight-red" data-fragment-index="3">the office</span> late</p>
-							<p>12:30 - went out lunchtime and bought a birthday card for my sister</p>
-							<p>17:30 - stopped to the supermarket after work</p>
-							<p>19:00 - ordered pizza for dinner, didn't feel like cooking</p>
-							<p>20:00 - rang Mum for a chat</p>
-							<p>20:30 - watched an episode of Ozark, then fell asleep</p>
+						<h3>Benefits of Linking a Journal to a Knowledge Graph</h2>
+						<ul>
+							<li class="fragment" data-fragment-index="1">Makes it easier to find specific things</li>
+							<li class="fragment" data-fragment-index="2">Act of linking often brings more meaning</li>
+							<li class="fragment" data-fragment-index="3">More easily understood at a later date, by yourself or by others</li>
+						</ul>
+					</section>
+					<section>
+						<h2>2D Journal Entry</h2>
+						<div>
+							<p>"Yesterday, we all went to London. Took Mother and Dad to see Lois, then Ken delivered them to Auntie Glad and Uncle Bob in Barnet, where they will be staying for a few days. Later we went to the Taj Mahal for dinner."</p>
 						</div>
 					</section>
 					<section>
-						<p class="fragment" data-fragment-index="1">Things that are public and notable, e.g. a city I visited or a movie I watched <span class="fragment" style="color:red;" data-fragment-index="4">-> DBpedia</span></p>
-						<p class="fragment" data-fragment-index="2">Things that are notable to people in a certain area or with a specific interest, e.g. a community group or local restaurant <span class="fragment" style="color:red;" data-fragment-index="5">-> Wikidata</span></p>
-						<p class="fragment" data-fragment-index="3">Things that are notable to me but would not generally be considered notable, e.g. my grandfather or my grandfather's house <span class="fragment" style="color:red;" data-fragment-index="6">-> PKG</span></p>
+						<h2>What do we find?</h2>
+						<ul>
+							<li class="fragment" data-fragment-index="1">Things that are public and notable, e.g. a city I visited or a movie I watched <span class="fragment" style="color:red;" data-fragment-index="4">-> DBpedia</span></li>
+							<li class="fragment" data-fragment-index="2">Things that are notable to people in a certain area or with a specific interest, e.g. a community group or local restaurant <span class="fragment" style="color:red;" data-fragment-index="5">-> Wikidata</span></li>
+						  <li class="fragment" data-fragment-index="3">Things that are notable to me but would not generally be considered notable, e.g. my grandfather or my grandfather's house <span class="fragment" style="color:red;" data-fragment-index="6">-> PKG</span></li>
+						</ul>
+					</section>
+					<section>
+						<h2>3D Journal Entry</h2>
+						<div>
+							<p>"Yesterday, we all went to <span class="fragment highlight-green" data-fragment-index="1">London</span>. Took <span class="fragment highlight-red" data-fragment-index="4">Mother</span> and <span class="fragment highlight-red" data-fragment-index="5">Dad</span> to see <span class="fragment highlight-red" data-fragment-index="6">Lois</span>, then <span class="fragment highlight-red" data-fragment-index="7">Ken</span> delivered them to <span class="fragment highlight-red" data-fragment-index="8">Auntie Glad</span> and <span class="fragment highlight-red" data-fragment-index="9">Uncle Bob</span> in <span class="fragment highlight-green" data-fragment-index="2">Barnet</span>, where they will be staying for a few days. Later we went to the <span class="fragment highlight-blue" data-fragment-index="3">Taj Mahal</span> for dinner."</p>
+						</div>
 					</section>
 				</section>
 				<section>
-					<pre><code data-trim>
-						&lt;http://robwalpole.co.uk/me&gt; rdf:type foaf:Person ;
-																	       foaf:givenName "Robert" ;
-																	       foaf:lastName "Walpole" .
-					</code><pre>
+					<section>
+						<h1>Creating a Personal Knowledge Graph</h1>
+					</section>
+					<section>
+						<pre><code data-trim>
+							@prefix rw: &lt;http://robwalpole.co.uk/&gt; .
+							@prefix rdf:  &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .
+							@prefix foaf: &lt;http://xmlns.com/foaf/0.1/&gt; .
+
+							rw:me rdf:type       foaf:Person ;
+										foaf:givenName "Robert" ;
+										foaf:lastName  "Walpole" .
+						</code><pre>
+					</section>
+					<section>
+						<pre><code data-trim>
+							@prefix rw: &lt;http://robwalpole.co.uk/> .
+							@prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+							@prefix foaf: &lt;http://xmlns.com/foaf/0.1/> .
+							@prefix dbo: &lt;http://dbpedia.org/ontology/> .
+
+							rw:me rdf:type       foaf:Person ;
+										foaf:givenName "Robert" ;
+										foaf:lastName  "Walpole" ;
+										dbo:parent     rw:my-mum , rw:my-dad ;
+										dbo:sibling    rob:my-sister , rob:my-brother .
+						</code><pre>
+					</section>
+					<section>
+						<pre><code data-trim>
+							@prefix rw: &lt;http://robwalpole.co.uk/> .
+							@prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+							@prefix foaf: &lt;http://xmlns.com/foaf/0.1/> .
+							@prefix dbo: &lt;http://dbpedia.org/ontology/> .
+
+							rw:me rdf:type foaf:Person ;
+										foaf:givenName "Robert" ;
+										foaf:lastName  "Walpole" ;
+										dbo:parent     rw:my-mum , rw:my-dad ;
+										dbo:sibling    rw:my-sister , rw:my-brother .
+
+							rw:my-sister rdf:type   foaf:Person ;
+									         dbo:spouse rw:my-brother-in-law ;
+										       dbo:child  rw:my-niece , rw:my-nephew .
+						</code><pre>
+					</section>
+					<section>
+						<h2>Is there any easier way to do this?</h1>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h1>GEDCOM</h1>
+					</section>
+					<section>
+						<img height="400px" src="images/Waltons_Ancestry.png"/>
+						<p><a href="https://thewaltons.fandom.com/wiki/The_Waltons_Wiki">https://thewaltons.fandom.com/wiki/The_Waltons_Wiki</a></p>
+					</section>
+					<section>
+						<pre><code data-trim>
+							0 HEAD
+							1 SUBM @SUBM1@
+							1 VERS 2024.01
+							2 _TREE Walton Family Tree
+							3 DATE 2 Apr 2024
+							2 TIME 10:44:24
+							1 GEDC
+							2 VERS 5.5.1
+							2 FORM LINEAGE-LINKED
+							1 CHAR UTF-8
+							0 @SUBM1@ SUBM
+							0 @I112573407540@ INDI
+							1 NAME John /Walton/
+							2 GIVN John
+							2 SURN Walton
+							1 SEX M
+							1 FAMC @F7@
+							1 BIRT
+							2 DATE 1916
+							2 PLAC Virginia, USA
+						</code></pre>
+					</section>
+					<section>
+						<pre><code data-trim>
+							{
+								"persons" : [ {
+    							"id" : "I112573407540",
+    							"gender" : {
+      							"type" : "http://gedcomx.org/Male"
+    							},
+    							"names" : [ {
+      							"preferred" : true,
+      							"nameForms" : [ {
+        							"fullText" : "John Walton",
+        							"parts" : [ {
+          							"type" : "http://gedcomx.org/Given",
+          							"value" : "John"
+        							}, {
+          							"type" : "http://gedcomx.org/Surname",
+          							"value" : "Walton"
+        							} ]
+      							} ]
+    							} ],
+    							"facts" : [ {
+      							"type" : "http://gedcomx.org/Birth",
+      							"date" : {
+        							"original" : "1916"
+      							},
+      							"place" : {
+        							"original" : "Virginia, USA"
+      							}
+    							} ]
+  							} ]
+							}
+						</code></pre>
+					</section>
+					<section>
+						<pre><code data-trim><script type="text/template">
+						<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+						<gedcomx xmlns="http://gedcomx.org/v1/">
+						    <person id="I112573407540">
+						        <gender type="http://gedcomx.org/Male"/>
+						        <name>
+						            <preferred>true</preferred>
+						            <nameForm>
+						                <fullText>John Walton</fullText>
+						                <part type="http://gedcomx.org/Given" value="John"/>
+						                <part type="http://gedcomx.org/Surname" value="Walton"/>
+						            </nameForm>
+						        </name>
+						        <fact type="http://gedcomx.org/Birth">
+						            <date>
+						                <original>1916</original>
+						            </date>
+						            <place>
+						                <original>Virginia, USA</original>
+						            </place>
+						        </fact>
+						    </person>
+							</gedcomx>
+						</script></code></pre>
+					</section>
 				</section>
 			</div>
 		</div>

@@ -8,7 +8,7 @@
 
 		<link rel="stylesheet" href="dist/reset.css">
 		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/black.css">
+		<link rel="stylesheet" href="dist/theme/moon.css">
 
 		<!-- Theme used for syntax highlighted code -->
 		<link rel="stylesheet" href="plugin/highlight/monokai.css">
@@ -16,8 +16,74 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+				<section>
+					<section>
+						<h1>Knowledge Graphs</h1>
+					</section>
+					<section>
+						<img height="600px" src="images/Prague_Castle_Google.png"/>
+					</section>
+					<section>
+						<img height="600px" src="images/Prague_Castle_DBpedia.png"/>
+					</section>
+					<section>
+						<img height="600px" src="images/Prague_Castle_Wikidata.png"/>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h1>What is a Personal Knowledge Graph?</h1>
+					</section>
+					<section>
+						<img height="500px" src="images/PKG.png"/>
+						<p><a href="https://personalknowledgegraphs.com/">https://personalknowledgegraphs.com/</a></p>
+					</section>
+					<section>
+						<h2>Three types of Knowledge Graph</h2>
+						<p class="fragment">Open Knowledge Graph (OKG)</p>
+						<p class="fragment">Enterprise Knowledge Graph (EKG)</p>
+						<p class="fragment">Personal Knowledge Graph (PKG)</p>
+					</section>
+					<section>
+						<h2>Definition:</h2>
+						<p>"All data that you yourself create combined with all data that others create about you."</p>
+						<p>Ruben Verborough, Global Data Geeks, 2021</p>
+					</section>
+					<section>
+						<h2>Definition:</h2>
+						<p>"A personal knowledge graph (PKG) is a knowledge graph (KG) where a single individual, called the owner of the PKG, has (1) full read and write access to the KG, and (2) the exclusive right to grant others read and write access to any specified part of the KG. The primary purpose of the PKG is to support the delivery of services that are customized particularly to its owner."</p>
+						<p>Skjæveland and Balog, 2023</p>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h1>Journalling</h1>
+					</section>
+					<section>
+						<div class="fragment" data-fragment-index="1">
+							<p style="align:left;">07:00 - went for a run in <span class="fragment highlight-red" data-fragment-index="2">the park</span></p>
+							<p>08:30 - left the house and took the train to work</p>
+							<p>09:30 - train delayed, arrived at <span class="fragment highlight-red" data-fragment-index="3">the office</span> late</p>
+							<p>12:30 - went out lunchtime and bought a birthday card for my sister</p>
+							<p>17:30 - stopped to the supermarket after work</p>
+							<p>19:00 - ordered pizza for dinner, didn't feel like cooking</p>
+							<p>20:00 - rang Mum for a chat</p>
+							<p>20:30 - watched an episode of Ozark, then fell asleep</p>
+						</div>
+					</section>
+					<section>
+						<p class="fragment" data-fragment-index="1">Things that are public and notable, e.g. a city I visited or a movie I watched <span class="fragment" style="color:red;" data-fragment-index="4">-> DBpedia</span></p>
+						<p class="fragment" data-fragment-index="2">Things that are notable to people in a certain area or with a specific interest, e.g. a community group or local restaurant <span class="fragment" style="color:red;" data-fragment-index="5">-> Wikidata</span></p>
+						<p class="fragment" data-fragment-index="3">Things that are notable to me but would not generally be considered notable, e.g. my grandfather or my grandfather's house <span class="fragment" style="color:red;" data-fragment-index="6">-> PKG</span></p>
+					</section>
+				</section>
+				<section>
+					<pre><code data-trim>
+						&lt;http://robwalpole.co.uk/me&gt; rdf:type foaf:Person ;
+																	       foaf:givenName "Robert" ;
+																	       foaf:lastName "Walpole" .
+					</code><pre>
+				</section>
 			</div>
 		</div>
 
@@ -31,6 +97,8 @@
 			// - https://revealjs.com/config/
 			Reveal.initialize({
 				hash: true,
+				//width: 80%,
+				//height: 80%,
 
 				// Learn about plugins: https://revealjs.com/plugins/
 				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]

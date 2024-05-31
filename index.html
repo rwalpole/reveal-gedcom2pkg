@@ -18,6 +18,25 @@
 			<div class="slides">
 				<section>
 					<section>
+						<h1>GEDCOM to RDF</h1>
+						<h2>Transforming Genealogical Data for use in a Personal Knowledge Graph</h2>
+						<p>Rob Walpole</p>
+						<p>rob.walpole@devexe.co.uk</p>
+					</section>
+					<section>
+						<h2>In this talk...</h2>
+						<ul>
+							<li class="fragment" data-fragment-index="1">Knowledge Graphs</li>
+							<li class="fragment" data-fragment-index="2">Personal Knowledge Graphs</li>
+							<li class="fragment" data-fragment-index="3">Why do I care?</li>
+							<li class="fragment" data-fragment-index="4">Creating a Personal Knowledge Graph</li>
+							<li class="fragment" data-fragment-index="5">GEDCOM</li>
+							<li class="fragment" data-fragment-index="6">RML and YARRRML</li>
+						</ul>
+					</section>
+				</section>
+				<section>
+					<section>
 						<h1>Knowledge Graphs</h1>
 					</section>
 					<section>
@@ -144,10 +163,16 @@
 						<h1>GEDCOM</h1>
 					</section>
 					<section>
+						<h2>The Waltons</h2>
+						<img class="r-frame" height="400px" src="images/Waltons.jpg"/>
+						<p>Photograph: Moviestore Collection/Alamy</p>
+					</section>
+					<section>
 						<img height="400px" src="images/Waltons_Ancestry.png"/>
 						<p><a href="https://thewaltons.fandom.com/wiki/The_Waltons_Wiki">https://thewaltons.fandom.com/wiki/The_Waltons_Wiki</a></p>
 					</section>
 					<section>
+						<h2>GEDCOM 5.5.1</h2>
 						<pre><code data-trim>
 							0 HEAD
 							1 SUBM @SUBM1@
@@ -172,6 +197,7 @@
 						</code></pre>
 					</section>
 					<section>
+						<h2>GEDCOM X JSON format</h2>
 						<pre><code data-trim>
 							{
 								"persons" : [ {
@@ -206,6 +232,7 @@
 						</code></pre>
 					</section>
 					<section>
+						<h2>GEDCOM X XML format</h2>
 						<pre><code data-trim><script type="text/template">
 						<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 						<gedcomx xmlns="http://gedcomx.org/v1/">
@@ -230,6 +257,125 @@
 						    </person>
 							</gedcomx>
 						</script></code></pre>
+					</section>
+					<section>
+						<h2>Couple relationships</h2>
+						<pre><code data-trim><script type="text/template">
+						<relationship type="http://gedcomx.org/Couple" id="F7-I112573407541-I112573407611">
+							<person1 resource="#I112573407541"/>
+							<person2 resource="#I112573407611"/>
+						</relationship>
+					</script></pre></code>
+					</section>
+					<section>
+						<h2>Parent-child relationships</h2>
+						<pre><code data-trim><script type="text/template">
+						<relationship type="http://gedcomx.org/ParentChild" id="F7-I112573407611-I112573407540">
+							<person1 resource="#I112573407611"/>
+							<person2 resource="#I112573407540"/>
+						</relationship>
+					</script></pre></code>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h1>RML & YARRRML</h1>
+					</section>
+					<section>
+						<h2>RDF Mapping Language (RML)</h2>
+						<ul>
+							<li class="fragment" data-fragment-index="1">Unofficial draft specification <a href="https://rml.io/specs/rml/">https://rml.io/specs/rml/</a></li>
+							<li class="fragment" data-fragment-index="2">Extension of R2RML <a href="https://www.w3.org/TR/r2rml/">https://www.w3.org/TR/r2rml/</a></li>
+							<li class="fragment" data-fragment-index="3">Generic mapping language</li>
+							<li class="fragment" data-fragment-index="4">RDF from TSV</li>
+							<li class="fragment" data-fragment-index="5">RDF from JSON</li>
+							<li class="fragment" data-fragment-index="6">RDF from XML</li>
+						</ul>
+					</section>
+					<section>
+						<h2>YARRRML</h2>
+						<p><a href="https://rml.io/yarrrml/">https://rml.io/yarrrml/</a></p>
+						<ul>
+							<li class="fragment" data-fragment-index="1">YARRRML is a human-friendly text-based representation of RML rules.</li>
+							<li class="fragment" data-fragment-index="2">A subset of YAML, a widely used data serialization language designed to be human-friendly.</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Example mapping file</h2>
+						<pre><code data-trim>
+							prefixes:
+								dbo: http://dbpedia.org/ontology/
+								wexp: http://waltons.example.org/person/
+							mappings:
+								people:
+									sources:
+										- ['WaltonsXml/tree.xml~xpath','/gedcomx/person']
+									subjects: wexp:$(@id)
+									predicateobjects:
+										- [a, foaf:Person]
+						</code></pre>
+						<p class="fragment" data-fragment-index="1">Result:</p>
+						<pre class="fragment" data-fragment-index="1"><code data-trim>
+							&lt;http://waltons.example.org/person/I112573407540&gt;
+							 	a foaf:Person .
+						</code></pre>
+					</section>
+					<section>
+						<h2>More Xpath</h2>
+						<pre><code data-trim>
+						predicateobjects:
+							- [a, foaf:Person]
+							- [foaf:givenName, "$(name/nameForm/part[@type='Given']/@value)"]
+						</code></pre>
+						<p class="fragment" data-fragment-index="1">Result:</p>
+						<pre class="fragment" data-fragment-index="1"><code data-trim>
+							&lt;http://waltons.example.org/person/I112573407540&gt;
+								a foaf:Person ;
+								foaf:givenName "John" ;
+						</code></pre>
+					</section>
+					<section>
+						<h2>More Xpath</h2>
+						<pre><code data-trim>
+						predicateobjects:
+							- [a, foaf:Person]
+							- [foaf:givenName, "$(name/nameForm/part[@type='Given']/@value)"]
+							- [foaf:lastName, "$(name/nameForm/part[@type='Surname']/@value)"]
+						</code></pre>
+						<p class="fragment" data-fragment-index="1">Result:</p>
+						<pre class="fragment" data-fragment-index="1"><code data-trim>
+							&lt;http://waltons.example.org/person/I112573407540&gt;
+								a foaf:Person ;
+								foaf:givenName "John" ;
+								foaf:lastName "Walton" .
+						</code></pre>
+					</section>
+					<section>
+						<h2>GREL functions</h2>
+						<p><a href="https://openrefine.org/docs/manual/grelfunctions">https://openrefine.org/docs/manual/grelfunctions</a></p>
+						<pre><code data-trim>
+							prefixes:
+  							grel: http://users.ugent.be/~bjdmeest/function/grel.ttl#
+						</code></pre>
+						<pre><code data-trim>
+							predicateobjects:
+		 						- predicates: dbo:spouse
+			 					  objects:
+				 						- function: grel:string_replace
+					 						parameters:
+					 						- [grel:valueParameter, wexp:$(person2/@resource)]
+					 						- [grel:p_string_find, '#']
+					 						- [grel:p_string_replace, '']
+					 						type: iri
+				 	  </code></pre>
+					</section>
+					<section>
+						<h2>YARRRML Parser</h2>
+						<p>YARRRML -> RML</p>
+					</section>
+					<section>
+						<h2>RML Mapper</h2>
+						<p>RML -> RDF</p>
 					</section>
 				</section>
 			</div>

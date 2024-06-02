@@ -27,11 +27,12 @@
 						<h2>In this talk...</h2>
 						<ul>
 							<li class="fragment" data-fragment-index="1">Knowledge Graphs</li>
-							<li class="fragment" data-fragment-index="2">Personal Knowledge Graphs</li>
-							<li class="fragment" data-fragment-index="3">Why do I care?</li>
+							<li class="fragment" data-fragment-index="2">What is a Personal Knowledge Graphs</li>
+							<li class="fragment" data-fragment-index="3">Journalling</li>
 							<li class="fragment" data-fragment-index="4">Creating a Personal Knowledge Graph</li>
 							<li class="fragment" data-fragment-index="5">GEDCOM</li>
-							<li class="fragment" data-fragment-index="6">RML and YARRRML</li>
+							<li class="fragment" data-fragment-index="6">RML & YARRRML</li>
+							<li class="fragment" data-fragment-index="7">Conclusions & Future</li>
 						</ul>
 					</section>
 				</section>
@@ -88,8 +89,10 @@
 						<h3>Benefits of Linking a Journal to a Knowledge Graph</h2>
 						<ul>
 							<li class="fragment" data-fragment-index="1">Makes it easier to find specific things</li>
-							<li class="fragment" data-fragment-index="2">Act of linking often brings more meaning</li>
-							<li class="fragment" data-fragment-index="3">More easily understood at a later date, by yourself or by others</li>
+							<li class="fragment" data-fragment-index="2">Explains what I mean when I say...</li>
+							<li class="fragment" data-fragment-index="3">Act of linking often brings more meaning</li>
+							<li class="fragment" data-fragment-index="4">More easily understood at a later date, by yourself or by others</li>
+							<li class="fragment" data-fragment-index="5">Potential use in an AI-based personal assistant</li>
 						</ul>
 					</section>
 					<section>
@@ -118,6 +121,7 @@
 						<h1>Creating a Personal Knowledge Graph</h1>
 					</section>
 					<section>
+						<h2>Naive approach</h2>
 						<pre><code data-trim>
 							@prefix rw: &lt;http://robwalpole.co.uk/&gt; .
 							@prefix rdf:  &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .
@@ -129,6 +133,7 @@
 						</code><pre>
 					</section>
 					<section>
+						<h2>Naive approach</h2>
 						<pre><code data-trim>
 							@prefix rw: &lt;http://robwalpole.co.uk/> .
 							@prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -143,6 +148,7 @@
 						</code><pre>
 					</section>
 					<section>
+						<h2>Naive approach</h2>
 						<pre><code data-trim>
 							@prefix rw: &lt;http://robwalpole.co.uk/> .
 							@prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -299,7 +305,7 @@
 						</ul>
 					</section>
 					<section>
-						<h2>YARRRML</h2>
+						<h2>YARRRML<img width="100" style="vertical-align:middle;padding-left:20px;" src="images/yarrrml.png"/></h2>
 						<p><a href="https://rml.io/yarrrml/">https://rml.io/yarrrml/</a></p>
 						<ul>
 							<li class="fragment" data-fragment-index="1">YARRRML is a human-friendly text-based representation of RML rules.</li>
@@ -315,7 +321,7 @@
 							mappings:
 								people:
 									sources:
-										- ['WaltonsXml/tree.xml~xpath','/gedcomx/person']
+										- ['waltons.xml~xpath','/gedcomx/person']
 									subjects: wexp:$(@id)
 									predicateobjects:
 										- [a, foaf:Person]
@@ -376,12 +382,84 @@
 				 	  </code></pre>
 					</section>
 					<section>
-						<h2>YARRRML Parser</h2>
-						<p>YARRRML -> RML</p>
+						<h2>YARRRML Parser<img width="100" style="vertical-align:middle;" src="images/matey.png"/></h2>
+						<ul>
+							<li>JavaScript parser library and CLI</li>
+							<li>Generates RML rules from YARRRML</li>
+						</ul>
+						<pre><code>
+							yarrrml-parser -i rules.yml -o rules.ttl
+						</code></pre>
+						<p>Matey: <a href="https://rml.io/yarrrml/matey/">https://rml.io/yarrrml/matey/</a></p>
 					</section>
 					<section>
 						<h2>RML Mapper</h2>
-						<p>RML -> RDF</p>
+						<ul>
+							<li>Java library with CLI</li>
+							<li> Generates Linked Data from RML rules</li>
+						</ul>
+						<pre><code data-trim>
+							java -jar rmlmapper.jar -m rules.ttl -o Waltons.ttl
+						</code></pre>
+						<p>GitHub: <a href="https://github.com/RMLio/rmlmapper-java">https://github.com/RMLio/rmlmapper-java</a></p>
+					</section>
+					<section>
+						<h2>RESULT</h2>
+						<pre><code data-trim>
+							@prefix wexp:  &lt;http://waltons.example.org/person/> .
+							@prefix dbo:   &lt;http://dbpedia.org/ontology/> .
+							@prefix rdf:   &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+							@prefix foaf:  &lt;http://xmlns.com/foaf/0.1/> .
+
+							wexp:I112573407540 rdf:type dbo:Person , foaf:Person ;
+                   dbo:birthDate "1916" ;
+                   dbo:birthPlace "Virginia, USA" ;
+                   dbo:parent wexp:I112573407541 ;
+                   dbo:parent wexp:I112573407611 ;
+                   foaf:gender "http://gedcomx.org/Male" ;
+                   foaf:givenName "John" ;
+                   foaf:surname "Walton" .
+
+						 wexp:I112573407541 rdf:type dbo:Person , foaf:Person ;
+                   dbo:birthDate "1896" ;
+                   dbo:child wexp:I112573407540 ;
+                   dbo:spouse wexp:I112573407611 ;
+                   foaf:gender "http://gedcomx.org/Male" ;
+                   foaf:givenName "John" ;
+                   foaf:surname "Walton" .
+
+ 						wexp:I112573407611 dbo:birthDate "1899" ;
+                   dbo:child wexp:I112573407540 ;
+                   dbo:spouse wexp:I112573407541 ;
+                   rdf:type dbo:Person ;
+                   rdf:type foaf:Person ;
+                   foaf:gender "http://gedcomx.org/Female" ;
+                   foaf:givenName "Olivia" .
+						</code></pre>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h1>Conclusions & Future</h1>
+					</section>
+					<section>
+						<h2>Conclusions</h2>
+						<ul>
+							<li class="fragment" data-fragment-index="1">Possible to build a large PKG quickly</li>
+							<li class="fragment" data-fragment-index="2">Possibility of exporting more information from GEDCOM (e.g. residence, employment)</li>
+							<li class="fragment" data-fragment-index="3">OWA means that you can add more facts later to your PKG</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Future</h2>
+						<ul>
+							<li class="fragment" data-fragment-index="1">GEDCOM export workflow (e.g. Apache Hop)</li>
+							<li class="fragment" data-fragment-index="2">Named Entity Recognition (e.g. DBpedia Spotlight)</li>
+							<li class="fragment" data-fragment-index="3">Storage of PKG in Solid Pod to allow sharing</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Thank you!</h2>
 					</section>
 				</section>
 			</div>

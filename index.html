@@ -28,7 +28,7 @@
 						<ul>
 							<li class="fragment" data-fragment-index="1">Knowledge Graphs</li>
 							<li class="fragment" data-fragment-index="2">What is a Personal Knowledge Graphs</li>
-							<li class="fragment" data-fragment-index="3">Journalling</li>
+							<li class="fragment" data-fragment-index="3">Journalling & Knowledge Graphs</li>
 							<li class="fragment" data-fragment-index="4">Creating a Personal Knowledge Graph</li>
 							<li class="fragment" data-fragment-index="5">GEDCOM</li>
 							<li class="fragment" data-fragment-index="6">RML & YARRRML</li>
@@ -60,9 +60,21 @@
 					</section>
 					<section>
 						<h2>Three types of Knowledge Graph</h2>
-						<p class="fragment">Open Knowledge Graph (OKG)</p>
-						<p class="fragment">Enterprise Knowledge Graph (EKG)</p>
-						<p class="fragment">Personal Knowledge Graph (PKG)</p>
+						<ul>
+							<li class="fragment" data-fragment-index="1">Open Knowledge Graph (OKG)</li>
+							<ul>
+								<li class="fragment" data-fragment-index="2">Google, DBpedia, Wikidata..</li>
+							</ul>
+							<li class="fragment" data-fragment-index="3">Enterprise Knowledge Graph (EKG)</li>
+							<ul>
+								<li class="fragment" data-fragment-index="4">IKEA, Airbnb, BMW..</li>
+							</ul>
+							<li class="fragment" data-fragment-index="5">Personal Knowledge Graph (PKG)</li>
+							<ul>
+								<li class="fragment" data-fragment-index="6">???</li>
+							</ul>
+						</ul>
+
 					</section>
 					<section>
 						<h2>Definition:</h2>
@@ -77,7 +89,7 @@
 				</section>
 				<section>
 					<section>
-						<h1>Journalling</h1>
+						<h1>Journalling & Knowledge Graphs</h1>
 					</section>
 					<section>
 						<h2>2D Journal Entry</h2>
@@ -143,7 +155,7 @@
 							rw:me rdf:type       foaf:Person ;
 										foaf:givenName "Robert" ;
 										foaf:lastName  "Walpole" ;
-										dbo:parent     rw:my-mum , rw:my-dad ;
+										dbo:parent     rw:my-mother , rw:my-father ;
 										dbo:sibling    rob:my-sister , rob:my-brother .
 						</code><pre>
 					</section>
@@ -158,7 +170,7 @@
 							rw:me rdf:type foaf:Person ;
 										foaf:givenName "Robert" ;
 										foaf:lastName  "Walpole" ;
-										dbo:parent     rw:my-mum , rw:my-dad ;
+										dbo:parent     rw:my-mother , rw:my-father ;
 										dbo:sibling    rw:my-sister , rw:my-brother .
 
 							rw:my-sister rdf:type   foaf:Person ;
@@ -440,14 +452,14 @@
 				</section>
 				<section>
 					<section>
-						<h1>Conclusions & Future</h1>
+						<h1>Conclusions <br/>& Future</h1>
 					</section>
 					<section>
 						<h2>Conclusions</h2>
 						<ul>
 							<li class="fragment" data-fragment-index="1">Possible to build a large PKG quickly</li>
 							<li class="fragment" data-fragment-index="2">Possibility of exporting more information from GEDCOM (e.g. residence, employment)</li>
-							<li class="fragment" data-fragment-index="3">OWA means that you can add more facts later to your PKG</li>
+							<li class="fragment" data-fragment-index="3">Open-world assumption means that you can add more facts later to your PKG</li>
 						</ul>
 					</section>
 					<section>
